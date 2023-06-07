@@ -8,33 +8,26 @@ import { Card, CardHeader, ListGroup, ListGroupItem } from 'reactstrap';
 
 function App() {
   const [kullaniciListesi, setKullaniciListesi] = useState([]);
-  const [serverListesi, setServerListesi] = useState([]);
 
   const kullaniciEkle = (yeniKullaniciKarti) => {
   
-    setKullaniciListesi([...kullaniciListesi, yeniKullaniciKarti]);
+    // setKullaniciListesi([...kullaniciListesi, yeniKullaniciKarti]);
     axios
     .post("https://reqres.in/api/users", yeniKullaniciKarti)
     .then((res) => {
-      console.log("Uye sisteme basari ile yuklendi.")
+      setKullaniciListesi([...kullaniciListesi, res.data])
+      
     })
   }
-useEffect(()=>{
-  axios
-  .get("https://reqres.in/api/users")
-  .then((res)=> {
-    setServerListesi(res.data.data)
-    console.log("gelen data", serverListesi)
-  });
-}, [kullaniciListesi])
+
   return (
     <div className="App">
         <YeniKullaniciKarti kullaniciEkle={kullaniciEkle} />
       <div >
-        <> Lokal Uye Listesi</>
+        <h1>Uye Listesi</h1>
         {kullaniciListesi.map((uye, i) => {
           return (
-            <div key={i} style={{"backgroundColor":"blue", "margin":"5px"}}>
+            <div key={i} style={{"backgroundColor":"gray", "margin":"5px"}}>
             
             <Card
             style={{

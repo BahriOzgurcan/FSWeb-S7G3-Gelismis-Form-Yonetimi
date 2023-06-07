@@ -33,34 +33,31 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
     const submitHandler = (e) => {
         e.preventDefault();
         kullaniciEkle(kullaniciForm)
-        console.log(kullaniciForm)
+        setKullaniciForm({
+            isim: "",
+            email: "",
+            password: "",
+            password_control: "",
+            terms: false,
+            kayit_tipi: ""
+        });
+
     };
 
     const changeHandler = (e) => {
         const { value, name } = e.target;
         Yup.reach(formSchema, name)
             .validate(value)
-            .then(() => {
-                setFormErrors((prevFormErrors) => ({
-                    ...prevFormErrors,
-                    [name]: ""
-                }));
+            .then((valid) => {setFormErrors(({...formErrors,[name]: ""}));
             })
-            .catch((err) => {
-                console.log(err);
-                setFormErrors((prevFormErrors) => ({
-                    ...prevFormErrors,
-                    [name]: err.errors[0]
-                }));
+            .catch((err) => {console.log(err);setFormErrors({...formErrors,[name]: err.errors[0]
+                });
             });
-        
-        setKullaniciForm((prevKullaniciForm) => ({
-            ...prevKullaniciForm,
-            [name]: value
-        }));
+
+        setKullaniciForm({...kullaniciForm,[name]: value});
     };
-    
-    
+
+
 
     const changeCheckHandler = (e) => {
         const { value, name, checked } = e.target;
@@ -82,10 +79,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             .required("Sifre girmek zorunludur."),
         password_control: Yup
             .string()
-            .oneOf([Yup.ref('password'), ""], "Sifre Sifreler eslesmiyor.")
+            .oneOf([Yup.ref('password')], "Sifreler eslesmiyor.")
             .required(),
-
-
         // Control validation bakilacak.
         terms: Yup
             .boolean()
@@ -93,13 +88,17 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
         kayit_tipi: Yup
             .string()
             .required("Kayit tipi secmek zorunludur.")
+            .oneOf(["Yeni Uye", "Uyelik Yenileme"], "Lutfen secim yapiniz.")
     });
 
 
     useEffect(() => {
+        console.log(formErrors)
         formSchema
             .isValid(kullaniciForm)
-            .then(a => setValidButton(!a));
+            .then((a) => {
+                setValidButton(!a)
+            });
 
     }, [kullaniciForm])
 
@@ -120,7 +119,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={!!formErrors.isim}
                         valid={!formErrors.isim && kullaniciForm.isim}
                     />
-                <FormFeedback>{formErrors.isim}</FormFeedback>
+                    <FormFeedback>{formErrors.isim}</FormFeedback>
                 </Label>
             </FormGroup>
             <FormGroup>
@@ -136,7 +135,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={!!formErrors.email}
                         valid={!formErrors.email && kullaniciForm.email}
                     />
-                <FormFeedback>{formErrors.email}</FormFeedback>
+                    <FormFeedback>{formErrors.email}</FormFeedback>
                 </Label>
             </FormGroup>
             <FormGroup>
@@ -152,7 +151,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={!!formErrors.password}
                         valid={!formErrors.password && kullaniciForm.password}
                     />
-                <FormFeedback>{formErrors.password}</FormFeedback>
+                    <FormFeedback>{formErrors.password}</FormFeedback>
                 </Label>
             </FormGroup>
             <FormGroup>
@@ -168,7 +167,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={!!formErrors.password_control}
                         valid={!formErrors.password_control && kullaniciForm.password_control}
                     />
-                <FormFeedback>{formErrors.password_control}</FormFeedback>
+                    <FormFeedback>{formErrors.password_control}</FormFeedback>
                 </Label>
             </FormGroup>
             <FormGroup>
@@ -183,7 +182,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={formErrors.terms}
                         valid={!formErrors.terms}
                     />
-                <FormFeedback>{formErrors.terms}</FormFeedback>
+                    <FormFeedback>{formErrors.terms}</FormFeedback>
                 </Label>
             </FormGroup>
             <FormGroup>
@@ -194,8 +193,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         type="select"
                         value={kullaniciForm.kayit_tipi}
                         onChange={changeHandler}
-                        invalid={!kullaniciForm.kayit_tipi}
-                        valid={!formErrors.kayit_tipi}
+                        valid={!formErrors.kayit_tipi && kullaniciForm.kayit_tipi}
                     >
                         <option defaultValue hidden>
                             Kayit tipi seciniz.
@@ -203,14 +201,14 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         <option disabled>
                             Kayit tipi seciniz.
                         </option>
-                        <option>
+                        <option value="Yeni Uye">
                             Yeni Uye
                         </option>
-                        <option>
+                        <option value="Uyelik Yenileme">
                             Uyelik Yenileme
                         </option>
                     </Input>
-                <FormFeedback>{formErrors.kayit_tipi}</FormFeedback>
+                    <FormFeedback>{formErrors.kayit_tipi}</FormFeedback>
                 </Label>
             </FormGroup>
             <Button type="submit" disabled={validButton}>Ekle</Button>
