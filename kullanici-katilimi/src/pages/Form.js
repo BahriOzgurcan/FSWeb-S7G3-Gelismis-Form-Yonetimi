@@ -74,7 +74,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             .required("Isim Soyisim girmek zorunludur."),
         email: Yup
             .string()
-            .email()
+            .email("Gecerli bir e-mail adresi giriniz.")
             .required("E-mail adresi girmek zorunludur."),
         password: Yup
             .string()
@@ -82,8 +82,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             .required("Sifre girmek zorunludur."),
         password_control: Yup
             .string()
-            .required()
-            .oneOf([Yup.ref('password'), ""], "Sifre Sifreler eslesmiyor."),
+            .oneOf([Yup.ref('password'), ""], "Sifre Sifreler eslesmiyor.")
+            .required(),
 
 
         // Control validation bakilacak.
@@ -120,8 +120,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={!!formErrors.isim}
                         valid={!formErrors.isim && kullaniciForm.isim}
                     />
-                </Label>
                 <FormFeedback>{formErrors.isim}</FormFeedback>
+                </Label>
             </FormGroup>
             <FormGroup>
                 <Label for="email">
@@ -129,15 +129,15 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                     <Input
                         id="email"
                         name="email"
-                        placeholder="E-mail adi giriniz."
+                        placeholder="E-mail adresi giriniz."
                         type="email"
                         value={kullaniciForm.email}
                         onChange={changeHandler}
                         invalid={!!formErrors.email}
                         valid={!formErrors.email && kullaniciForm.email}
                     />
-                </Label>
                 <FormFeedback>{formErrors.email}</FormFeedback>
+                </Label>
             </FormGroup>
             <FormGroup>
                 <Label for="password">
@@ -145,15 +145,15 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                     <Input
                         id="password"
                         name="password"
-                        placeholder="Sifre adi giriniz."
+                        placeholder="Sifre giriniz."
                         type="password"
                         value={kullaniciForm.password}
                         onChange={changeHandler}
                         invalid={!!formErrors.password}
                         valid={!formErrors.password && kullaniciForm.password}
                     />
-                </Label>
                 <FormFeedback>{formErrors.password}</FormFeedback>
+                </Label>
             </FormGroup>
             <FormGroup>
                 <Label for="password_control">
@@ -168,8 +168,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={!!formErrors.password_control}
                         valid={!formErrors.password_control && kullaniciForm.password_control}
                     />
-                </Label>
                 <FormFeedback>{formErrors.password_control}</FormFeedback>
+                </Label>
             </FormGroup>
             <FormGroup>
                 <Label for="terms">
@@ -183,8 +183,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         invalid={formErrors.terms}
                         valid={!formErrors.terms}
                     />
-                </Label>
                 <FormFeedback>{formErrors.terms}</FormFeedback>
+                </Label>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="kayit_tipi">
@@ -194,8 +194,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         type="select"
                         value={kullaniciForm.kayit_tipi}
                         onChange={changeHandler}
-                        invalid={!!formErrors.kayit_tipi}
-                        valid={!formErrors.kayit_tipi && kullaniciForm.kayit_tipi}
+                        invalid={!kullaniciForm.kayit_tipi}
+                        valid={!formErrors.kayit_tipi}
                     >
                         <option defaultValue hidden>
                             Kayit tipi seciniz.
@@ -210,8 +210,8 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                             Uyelik Yenileme
                         </option>
                     </Input>
-                </Label>
                 <FormFeedback>{formErrors.kayit_tipi}</FormFeedback>
+                </Label>
             </FormGroup>
             <Button type="submit" disabled={validButton}>Ekle</Button>
 

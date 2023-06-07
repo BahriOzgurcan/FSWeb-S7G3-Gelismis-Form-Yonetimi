@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import YeniKullaniciKarti from './pages/Form';
-
+import { Card, CardHeader, ListGroup, ListGroupItem } from 'reactstrap';
 
 
 function App() {
@@ -34,11 +34,29 @@ useEffect(()=>{
         <> Lokal Uye Listesi</>
         {kullaniciListesi.map((uye, i) => {
           return (
-            <div key={i} style={{"backgroundColor":"blue", "color":"white", "margin":"5px"}}>
-            <p>Isim: {uye.isim}</p>
-            <p>E-mail: {uye.email}</p>
-            <p>Sifre: {uye.password}</p>
-            <p>Kayit Tipi: {uye.kayit_tipi}</p>
+            <div key={i} style={{"backgroundColor":"blue", "margin":"5px"}}>
+            
+            <Card
+            style={{
+              width: '18rem',
+              margin: 'auto'
+            }}
+            >
+            <CardHeader>
+            Isim: {uye.isim}
+            </CardHeader>
+            <ListGroup flush>
+              <ListGroupItem>
+                E-mail: {uye.email}
+              </ListGroupItem>
+              <ListGroupItem>
+              Sifre: {uye.password}
+              </ListGroupItem>
+              <ListGroupItem>
+              Kayit Tipi: {uye.kayit_tipi}
+              </ListGroupItem>
+            </ListGroup>
+          </Card>
             </div>
           )
         })
