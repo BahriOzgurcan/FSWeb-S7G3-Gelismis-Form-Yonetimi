@@ -46,6 +46,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
 
     const changeHandler = (e) => {
         const { value, name } = e.target;
+        setKullaniciForm({...kullaniciForm,[name]: value});
         Yup.reach(formSchema, name)
             .validate(value)
             .then((valid) => {setFormErrors(({...formErrors,[name]: ""}));
@@ -54,7 +55,6 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                 });
             });
 
-        setKullaniciForm({...kullaniciForm,[name]: value});
     };
 
 
@@ -79,7 +79,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             .required("Sifre girmek zorunludur."),
         password_control: Yup
             .string()
-            .oneOf([Yup.ref('password')], "Sifreler eslesmiyor.")
+            .oneOf([Yup.ref('password'), null])
             .required(),
         // Control validation bakilacak.
         terms: Yup
@@ -118,6 +118,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         onChange={changeHandler}
                         invalid={!!formErrors.isim}
                         valid={!formErrors.isim && kullaniciForm.isim}
+                        data-cy="isim-input"
                     />
                     <FormFeedback>{formErrors.isim}</FormFeedback>
                 </Label>
@@ -134,6 +135,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         onChange={changeHandler}
                         invalid={!!formErrors.email}
                         valid={!formErrors.email && kullaniciForm.email}
+                        data-cy="email-input"
                     />
                     <FormFeedback>{formErrors.email}</FormFeedback>
                 </Label>
@@ -150,6 +152,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         onChange={changeHandler}
                         invalid={!!formErrors.password}
                         valid={!formErrors.password && kullaniciForm.password}
+                        data-cy="password-input"
                     />
                     <FormFeedback>{formErrors.password}</FormFeedback>
                 </Label>
@@ -166,6 +169,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         value={kullaniciForm.password_control}
                         invalid={!!formErrors.password_control}
                         valid={!formErrors.password_control && kullaniciForm.password_control}
+                        data-cy="password_control-input"
                     />
                     <FormFeedback>{formErrors.password_control}</FormFeedback>
                 </Label>
@@ -181,6 +185,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         checked={kullaniciForm.terms}
                         invalid={formErrors.terms}
                         valid={!formErrors.terms}
+                        data-cy="terms-input"
                     />
                     <FormFeedback>{formErrors.terms}</FormFeedback>
                 </Label>
@@ -194,6 +199,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                         value={kullaniciForm.kayit_tipi}
                         onChange={changeHandler}
                         valid={!formErrors.kayit_tipi && kullaniciForm.kayit_tipi}
+                        data-cy="kayit_tipi-input"
                     >
                         <option defaultValue hidden>
                             Kayit tipi seciniz.
@@ -211,7 +217,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
                     <FormFeedback>{formErrors.kayit_tipi}</FormFeedback>
                 </Label>
             </FormGroup>
-            <Button type="submit" disabled={validButton}>Ekle</Button>
+            <Button data-cy="submit-button" type="submit" disabled={validButton}>Ekle</Button>
 
 
         </Form>

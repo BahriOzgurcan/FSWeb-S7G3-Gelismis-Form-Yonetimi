@@ -34,6 +34,7 @@ function App() {
               width: '18rem',
               margin: 'auto'
             }}
+            data-cy="uye-karti"
             >
             <CardHeader>
             Isim: {uye.isim}
