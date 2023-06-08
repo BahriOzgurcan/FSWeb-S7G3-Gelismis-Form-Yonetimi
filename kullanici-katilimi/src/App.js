@@ -22,9 +22,10 @@ function App() {
 
   return (
     <div className="App">
+      <h1 style={{"backgroundColor":"green", "margin":"5px auto", "width":"250px"}}>Uye Ekle</h1>
         <YeniKullaniciKarti kullaniciEkle={kullaniciEkle} />
       <div >
-        <h1>Uye Listesi</h1>
+        <h1 style={{"backgroundColor":"yellow", "margin":"5px auto", "width":"250px"}}>Uye Listesi</h1>
         {kullaniciListesi.map((uye, i) => {
           return (
             <div key={i} style={{"backgroundColor":"gray", "margin":"5px"}}>

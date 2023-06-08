@@ -48,7 +48,7 @@ describe('My First Test', () => {
         cy.get('[data-cy="email-input"]').type("elonmusk@tesla.com");
         cy.get('[data-cy="password-input"]').type("twitterrocks99");
         cy.get('[data-cy="password_control-input"]').type("twitterrocks99");
-        // cy.get('[data-cy="terms-input"]').click("right");
+        // cy.get('[data-cy="terms-input"]').click("right"); //Checkbox bos birakilarak hatali form gonderildi
         cy.get('[data-cy="kayit_tipi-input"]').select(2);
         cy.get('[data-cy="submit-button"]').should("be.disabled");
     })
@@ -93,5 +93,3 @@ describe('My First Test', () => {
             )
     })
 })
-
-{/* <button type="submit" class="btn btn-secondary">Ekle</button> */}

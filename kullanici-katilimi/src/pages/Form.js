@@ -45,15 +45,23 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
     };
 
     const changeHandler = (e) => {
-        const { value, name } = e.target;
-        setKullaniciForm({...kullaniciForm,[name]: value});
-        Yup.reach(formSchema, name)
-            .validate(value)
-            .then((valid) => {setFormErrors(({...formErrors,[name]: ""}));
-            })
-            .catch((err) => {console.log(err);setFormErrors({...formErrors,[name]: err.errors[0]
+        const { value, name} = e.target;
+        setKullaniciForm({ ...kullaniciForm, [name]: value });
+        if (kullaniciForm.password === value) {
+            setFormErrors({ ...formErrors, [name]: "" })
+        } else {
+
+            Yup.reach(formSchema, name)
+                .validate(value)
+                .then((valid) => {
+                    setFormErrors({ ...formErrors, [name]: "" });
+                })
+                .catch((err) => {
+                    console.log(err); setFormErrors({
+                        ...formErrors, [name]: err.errors[0]
+                    });
                 });
-            });
+        }
 
     };
 
@@ -79,7 +87,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             .required("Sifre girmek zorunludur."),
         password_control: Yup
             .string()
-            .oneOf([Yup.ref('password'), null])
+            .oneOf([Yup.ref('password'), null], "Sifreler eslesmiyor!!!")
             .required(),
         // Control validation bakilacak.
         terms: Yup
@@ -93,7 +101,6 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
 
 
     useEffect(() => {
-        console.log(formErrors)
         formSchema
             .isValid(kullaniciForm)
             .then((a) => {
@@ -106,9 +113,9 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
         <Form onSubmit={submitHandler}>
             <FormGroup>
                 <Label for="isim">
-                    Isim Soyisim giriniz.
+                    Isim Soyisim
                     <br />
-                    <span style={{ "color": "red", "fontSize": "smaller" }}>(Aralarinda bosluk birakiniz.)</span>
+                    {/* <span style={{ "color": "red", "fontSize": "smaller" }}>(Aralarinda bosluk birakiniz.)</span> */}
                     <Input
                         id="isim"
                         name="isim"
@@ -125,7 +132,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             </FormGroup>
             <FormGroup>
                 <Label for="email">
-                    E-mail giriniz.
+                    E-mail
                     <Input
                         id="email"
                         name="email"
@@ -142,7 +149,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             </FormGroup>
             <FormGroup>
                 <Label for="password">
-                    Sifre giriniz.
+                    Sifre
                     <Input
                         id="password"
                         name="password"
@@ -159,7 +166,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             </FormGroup>
             <FormGroup>
                 <Label for="password_control">
-                    Sifrenizi tekrar giriniz.
+                    Sifrenizi Tekrar
                     <Input
                         id="password_control"
                         name="password_control"
@@ -176,7 +183,7 @@ const YeniKullaniciKarti = ({ kullaniciEkle }) => {
             </FormGroup>
             <FormGroup>
                 <Label for="terms">
-                    Kullanim Sartlarini kabul etmelisiniz.
+                    Kullanim Sartlarini kabul ediyorum.
                     <Input
                         id="terms"
                         name="terms"
